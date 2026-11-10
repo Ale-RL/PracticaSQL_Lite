@@ -80,6 +80,7 @@
             btnInsertar.TabIndex = 3;
             btnInsertar.Text = "Insertar";
             btnInsertar.UseVisualStyleBackColor = true;
+            btnInsertar.Click += btnInsertar_Click;
             // 
             // btnActualizar
             // 

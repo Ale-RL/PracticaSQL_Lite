@@ -31,9 +31,9 @@ namespace PracticaSQL_Lite
             string stm = "SELECT * FROM test";
             var cmd = new SQLiteCommand(stm, con);
             dr = cmd.ExecuteReader();
-            while(dr.Read())
+            while (dr.Read())
             {
-                dataGridView1.Rows.Insert(0, dr.GetString(0),dr.GetString(1));
+                dataGridView1.Rows.Insert(0, dr.GetString(0), dr.GetString(1));
             }
         }
         private void Create_db()
@@ -52,6 +52,33 @@ namespace PracticaSQL_Lite
             else
             {
                 MessageBox.Show("La base de datos no se puede crear");
+                return;
+            }
+        }
+
+        private void btnInsertar_Click(object sender, EventArgs e)
+        {
+            var con = new SQLiteConnection(cs);
+            con.Open();
+            var cmd = new SQLiteCommand(con);
+            try
+            {
+                cmd.CommandText = "INSERT INTO test(name, id) VALUES(@name, @id)"; 
+                string NAME = txtNombre.Text;
+                string ID = txtID.Text;
+                cmd.Parameters.AddWithValue("@name", NAME);
+                cmd.Parameters.AddWithValue("@id", ID);
+
+                dataGridView1.ColumnCount = 2;
+                dataGridView1.Columns[0].Name = "Nombre";
+                dataGridView1.Columns[1].Name = "ID";
+                string[] row =   new string[] { NAME, ID };
+                dataGridView1.Rows.Add(row);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo insertar la infromación: " + ex.Message);
                 return;
             }
         }
